@@ -86,8 +86,6 @@ async function loadMainPrompts() {
 async function viewDepartments() {
   // Using await to call database function "find all departments" and assign the resultant array to a variable
   // UNCOMMENT the following line and add your code
-  // const YOUR_VARIALBE = await db.YOUR_DB_FUNCTION();
-
   const allDept = await db.findAllDepartments();
 
   console.log("\n");
@@ -126,7 +124,7 @@ async function viewRoles() {
 
 async function addRole() {
   // Call your database funtion to select all roles and assign the result to a variable
-  const YOUR_ROLE_VAR = await db.findAllRoles();
+  const addRole = await db.findAllRoles();
 
   const YOUR_DEPT_CHOICES = YOUR_ROLE_VAR.map(({ id, name }) => ({
     name: name,

@@ -27,7 +27,7 @@ class DB {
   // Create a new role
   createRole(role) {
     // UNCOMMENT the line betow to code your query to create role
-    // return this.connection.query(YOUR_QUERY_FOR_INSERT);
+     return this.connection.query(`INSERT INTO role (title, salary, department_id ) VALUES(${role})`);
   }
 
   // Find all employees, join with roles and departments to display their roles, salaries, departments, and managers
@@ -40,7 +40,7 @@ class DB {
   // Create a new employee
   createEmployee(employee) {
     // UNCOMMENT the line below to code your insert query
-    // return this.connection.query(YOUR_QUERY_FOR_INSERT);
+    return this.connection.query(`INSERT INTO department (first_name, last_name) VALUES(${employee})`);
   }
 
   // Update the given employee's role
@@ -51,12 +51,12 @@ class DB {
 
   // Find all employees in a given department, join with roles to display role titles
   findAllEmployeesByDepartment(departmentId) {
-    return this.connection.query("SELECT * FROM employee WHERE departmentId ");
+    return this.connection.query("SELECT * FROM employee WHERE departmentId ", [departmentId]);
   }
 
   // Find all employees by manager, join with departments and roles to display titles and department names
   findAllEmployeesByManager(managerId) {
-    return this.connection.query("");
+    return this.connection.query("SELECT * FROM role LEFT JOIN department ON role.department_id = department.id ", [managerId]);
   }
 }
 
