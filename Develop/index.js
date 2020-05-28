@@ -88,14 +88,16 @@ async function viewDepartments() {
   // UNCOMMENT the following line and add your code
   // const YOUR_VARIALBE = await db.YOUR_DB_FUNCTION();
 
+  const allDept = await db.findAllDepartments();
+
   console.log("\n");
-  console.table(YOUR_VARIALBE);
+  console.table(allDept);
 
   loadMainPrompts();
 }
 
 async function addDepartment() {
-  const YOUR_DEPT_VARIABLE = await prompt([
+  const addDept = await prompt([
     {
       name: "name",
       message: "What is the name of the department?",
@@ -104,10 +106,9 @@ async function addDepartment() {
 
   // Using await to call database function to create department and assign the result to a variable
   // UNCOMMENT the following line and add your code
-  // await db.YOUR_DB_FUNCTION(YOUR_DEPT_VARIABLE);
+    db.createDepartment(addDept.name);
 
-  
-  console.log("Added " + YOUR_DEPT_NAME + " to the database");
+  console.log("Added " + addDept.name + " to the database");
 
   loadMainPrompts();
 }
@@ -115,8 +116,7 @@ async function addDepartment() {
 async function viewRoles() {
   // Using await to call database function to find all roles and assign the resultant array to a variable
   // UNCOMMENT the following line and add your code
-  // const roles = await db.YOUR_DB_FUNCTION();
-
+   const roles = await db.findAllRoles();
 
   console.log("\n");
   console.table(roles);
@@ -160,10 +160,10 @@ async function addRole() {
 
 async function viewEmployees() {
   // Using await keyword to call database function to find all employees and assign the returned result to a variable 
-  const YOUR_EMP_VAR = await db.YOUR_DB_FUNCTION_TO_FIND_ALL_EMPS();
+  const allEmp = await db.findAllEmployees();
 
   console.log("\n");
-  console.table(YOUR_EMP_VAR);
+  console.table(allEmp);
 
   loadMainPrompts();
 }
@@ -171,10 +171,10 @@ async function viewEmployees() {
 
 async function updateEmployeeRole() {
   // Create an employee variable to store the array returned from database find all employees function using await
-  const YOUR_EMP_VAR = await db.YOUR_DB_FUNCTION_TO_FIND_ALL();
+  const  findEmp = await db.findAllEmployees();
 
   // With the array variable from above, create a new array for objects for each element in the array variable
-  const YOUR_EMP_CHOICES = YOUR_EMP_VAR.map(({ id, first_name, last_name }) => ({
+  const empChoices = findEmp.map(({ id, first_name, last_name }) => ({
     name: `${first_name} ${last_name}`,
     value: id,
   }));
@@ -183,14 +183,14 @@ async function updateEmployeeRole() {
     {
       type: "list",
       name: "employeeId",
-      message: "YOUR_QUESTION",
-      choices: YOUR_EMP_CHOICES, 
+      message: "Which employee would you like to update",
+      choices: empChoices, 
     },
   ]);
 
-  const YOUR_ROLES_VAR = await db.YOUR_DB_FUNCTION_FOR_ALL_ROLES();
+  const updateEmpRole = await db.updateEmployeeRole();
 
-  const YOUR_ROLE_CHOICES = YOUR_ROLES_VAR.map(({ id, title }) => ({
+  const roleChoices = updateEmpRole.map(({ id, title }) => ({
     name: title,
     value: id,
   }));
@@ -199,12 +199,12 @@ async function updateEmployeeRole() {
     {
       type: "list",
       name: "roleId",
-      message: "YOUR_QUESTION_FOR_ROLE",
-      choices: YOUR_ROLE_CHOICES,
+      message: "What is the new role?",
+      choices: roleChoices,
     },
   ]);
 
-  await db.YOUR_DB_FUNCTION_FOR_UPDATE(employeeId, roleId);
+  await db.updateEmployeeRole(employeeId, roleId);
 
   console.log("Updated employee's role");
 
