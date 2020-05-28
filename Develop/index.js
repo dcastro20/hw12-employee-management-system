@@ -125,10 +125,10 @@ async function viewRoles() {
 }
 
 async function addRole() {
-  // Call your database funtion to select all depts and assign the result to a variable
-  const YOUR_DEPT_VAR = await db.YOUR_DB_FUNCTION_FOR_DEPTS();
+  // Call your database funtion to select all roles and assign the result to a variable
+  const YOUR_ROLE_VAR = await db.findAllRoles();
 
-  const YOUR_DEPT_CHOICES = YOUR_DEPT_VAR.map(({ id, name }) => ({
+  const YOUR_DEPT_CHOICES = YOUR_ROLE_VAR.map(({ id, name }) => ({
     name: name,
     value: id,
   }));
