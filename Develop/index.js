@@ -186,9 +186,9 @@ async function updateEmployeeRole() {
     },
   ]);
 
-  const updateEmpRole = await db.updateEmployeeRole();
+  const findRole = await db.findAllRoles();
 
-  const roleChoices = updateEmpRole.map(({ id, title }) => ({
+  const roleChoices = findRole.map(({ id, title }) => ({
     name: title,
     value: id,
   }));
@@ -223,11 +223,13 @@ async function addEmployee() {
   ]);
 
   // Prompt for role choices
-  const roleChoices = updateEmpRole.map(({ id, title }) => ({
+  const findRole = await db.findAllRoles();
+
+  const roleChoices = findRole.map(({ id, title }) => ({
     name: title,
     value: id,
   }));
-  
+
   const { roleId } = await prompt([
     {
       type: "list",
@@ -236,18 +238,28 @@ async function addEmployee() {
       choices: roleChoices,
     },
   ]);
+
   // Assign the role to emplyee
   employee.role_id = roleId;
 
   // Prompt manager choices
+
+  const findMgr = await db.findAllEmployees();
+
+  const mgrChoices = findMgr.map(({ id, first_name, last_name }) => ({
+    name: `${first_name} ${last_name}`,
+    value: id,
+  }));
+
   const { managerId } = await prompt([
     {
       type: "list",
       name: "managerId",
       message: "Who is the manager?",
-      choices: roleChoices,
+      choices: mgrChoices,
     },
   ]);
+
   // Assign the manager choice to employee
   employee.manager_id = managerId;
 

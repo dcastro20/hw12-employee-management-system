@@ -15,7 +15,7 @@ class DB {
   // Create a new department
   createDepartment(department) {
     // UNCOMMENT the line betow to code your query to create a department, replacing ? with department to SET
-     console.log(`INSERT INTO department SET ?`);
+
     return this.connection.query(`INSERT INTO department SET ?`, department);
   }
 
@@ -47,7 +47,7 @@ class DB {
   // Update the given employee's role
   updateEmployeeRole(employeeId, roleId) {
     // UNCOMMENT the line bolow to code your query to update role id for the given employee
-     return this.connection.query("UPDATE employee SET role_id = ? WHERE id = ? ",[employeeId, roleId]);
+     return this.connection.query(`UPDATE employee SET role_id = ? WHERE id = ? `,[employeeId, roleId]);
   }
 
   // Find all employees in a given department, join with roles to display role titles
