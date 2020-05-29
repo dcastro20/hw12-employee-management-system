@@ -1,6 +1,6 @@
 const { prompt } = require("inquirer");
 const logo = require("asciiart-logo");
-const db = require("./db");
+const db = require("./db/index");
 require("console.table");
 
 init();
@@ -104,7 +104,7 @@ async function addDepartment() {
 
   // Using await to call database function to create department and assign the result to a variable
   // UNCOMMENT the following line and add your code
-    db.createDepartment(addDept.name);
+    await db.createDepartment(addDept);
 
   console.log("Added " + addDept.name + " to the database");
 
@@ -124,9 +124,9 @@ async function viewRoles() {
 
 async function addRole() {
   // Call your database funtion to select all roles and assign the result to a variable
-  const addRole = await db.findAllRoles();
+  const addRoles = await db.findAllRoles();
 
-  const YOUR_DEPT_CHOICES = YOUR_ROLE_VAR.map(({ id, name }) => ({
+  const roleChoices = addRoles.map(({ id, name }) => ({
     name: name,
     value: id,
   }));
@@ -144,12 +144,12 @@ async function addRole() {
       type: "list",
       name: "department_id",
       message: "Which department does the role belong to?",
-      choices: YOUR_DEPT_CHOICES,
+      choices: roleChoices,
     },
   ]);
 
   // UNCOMMENT below to call database function to create role
-  // await db.YOUR_DB_FUNCTION_TO_CREATE_ROLE(role);
+     await db.createRole(role);
 
   console.log(`Added ${role.title} to the database`);
 
@@ -223,16 +223,35 @@ async function addEmployee() {
   ]);
 
   // Prompt for role choices
-
+  const roleChoices = updateEmpRole.map(({ id, title }) => ({
+    name: title,
+    value: id,
+  }));
+  
+  const { roleId } = await prompt([
+    {
+      type: "list",
+      name: "roleId",
+      message: "What is the new role?",
+      choices: roleChoices,
+    },
+  ]);
   // Assign the role to emplyee
   employee.role_id = roleId;
 
   // Prompt manager choices
-
+  const { managerId } = await prompt([
+    {
+      type: "list",
+      name: "managerId",
+      message: "Who is the manager?",
+      choices: roleChoices,
+    },
+  ]);
   // Assign the manager choice to employee
   employee.manager_id = managerId;
 
-  await db.YOUR_DB_FUNCTION_TO_CREATE_EMP_(employee);
+  await db.createEmployee(employee);
 
   console.log(
     `Added ${employee.first_name} ${employee.last_name} to the database`

@@ -15,7 +15,8 @@ class DB {
   // Create a new department
   createDepartment(department) {
     // UNCOMMENT the line betow to code your query to create a department, replacing ? with department to SET
-     return this.connection.query(`INSERT INTO department (name) VALUES(${department})`);
+     console.log(`INSERT INTO department SET ?`);
+    return this.connection.query(`INSERT INTO department SET ?`, department);
   }
 
   // Find all roles
@@ -27,7 +28,7 @@ class DB {
   // Create a new role
   createRole(role) {
     // UNCOMMENT the line betow to code your query to create role
-     return this.connection.query(`INSERT INTO role (title, salary, department_id ) VALUES(${role})`);
+     return this.connection.query(`INSERT INTO role SET ?`, role);
   }
 
   // Find all employees, join with roles and departments to display their roles, salaries, departments, and managers
@@ -40,7 +41,7 @@ class DB {
   // Create a new employee
   createEmployee(employee) {
     // UNCOMMENT the line below to code your insert query
-    return this.connection.query(`INSERT INTO department (first_name, last_name) VALUES(${employee})`);
+    return this.connection.query(`INSERT INTO employee SET ?`, employee);
   }
 
   // Update the given employee's role
